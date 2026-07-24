@@ -1,8 +1,14 @@
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://nigerian-stock-ai-pzrox9fhscxwfedvtzm2gd.streamlit.app/)
+
 # 🇳🇬 Nigerian Stock AI
 
 An AI-powered stock prediction and portfolio optimization platform for the Nigerian Stock Exchange (NGX).
 
 This project uses Machine Learning models and technical indicators to analyze Nigerian stock market data, generate BUY/HOLD recommendations, predict future prices, and optimize investment portfolios based on risk preferences.
+
+## Live Demo
+
+https://nigerian-stock-ai-pzrox9fhscxwfedvtzm2gd.streamlit.app/
 
 ---
 
