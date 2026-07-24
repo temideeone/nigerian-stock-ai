@@ -58,10 +58,13 @@ with st.spinner(
  xgb, xgb_reg = load_models()
 
 # Make predictions
-predictions = make_predictions(
-    latest_data,
-    xgb,
-    xgb_reg
+from pathlib import Path
+import pandas as pd
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+predictions = pd.read_csv(
+    BASE_DIR / "outputs" / "latest_predictions.csv"
 )
 st.success(
     "Prediction generated successfully."

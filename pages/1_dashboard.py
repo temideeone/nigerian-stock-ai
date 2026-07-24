@@ -1,19 +1,34 @@
 import streamlit as st
 from src.predict import make_predictions
 from src.portfolio import build_portfolio
+import pandas as pd
+from pathlib import Path
 
 st.image(
     "assets/logo.png",
     width=220
 )
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+predictions = pd.read_csv(
+    BASE_DIR / "outputs" / "latest_predictions.csv"
+)
+
 from datetime import datetime
-import time
 
-st.title("📊 Dashboard")
+prediction_file = (
+    BASE_DIR
+    / "outputs"
+    / "latest_predictions.csv"
+)
 
-st.write(
-    f"Last Updated: {datetime.now()}"
+last_update = datetime.fromtimestamp(
+    prediction_file.stat().st_mtime
+)
+
+st.info(
+    f"📅 Last Updated: {last_update.strftime('%d %b %Y %H:%M')}"
 )
 
 # Temporary data
@@ -133,7 +148,7 @@ if st.button(
         f"₦{amount:,}"
     )
 
-    import time
+import time
 
 with st.spinner(
     "Running AI models..."
@@ -206,3 +221,4 @@ tab1, tab2, tab3 = st.tabs(
         "Statistics"
     ]
 )
+

@@ -1,6 +1,6 @@
 import streamlit as st
 from pathlib import Path
-
+import pandas as pd
 from src.data_loader import load_all_data
 from src.feature_engineering import engineer_features
 from src.model_loader import load_models
@@ -52,12 +52,10 @@ latest_data = (
 )
 
 # load models
-xgb, xgb_reg = load_models()
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-predictions = make_predictions(
-    latest_data,
-    xgb,
-    xgb_reg
+predictions = pd.read_csv(
+    BASE_DIR / "outputs" / "latest_predictions.csv"
 )
 
 # user select stock
@@ -127,10 +125,12 @@ st.metric(
 
 
 # Portfolio Optimizer
+# Portfolio optimizer
+
 if risk == "Conservative":
 
     portfolio = predictions[
-        predictions["Probability"] >= 0.60
+        predictions["Probability"] >= 0.75
     ]
 
 elif risk == "Moderate":
@@ -146,36 +146,36 @@ else:
     ]
 
 
-# Show selected stocks
-st.write(
-    portfolio[
-        ["Ticker", "Probability"]
-    ]
-)
-
-
-# Build portfolio only if we have stocks
-if len(portfolio) > 0:
-
-    
-
-    allocation = amount / len(portfolio)
-
-    portfolio["Allocation"] = allocation
-
-    portfolio["Expected_Profit"] = (
-
-        portfolio["Allocation"]
-        *
-        portfolio["Expected_Return"]
-        / 100
-    )
-
-else:
+# No qualifying stocks
+if len(portfolio) == 0:
 
     st.warning(
-        "No stocks match the selected risk level."
+        f"No stocks match the {risk} strategy today."
     )
+
+    st.stop()
+
+
+# Divide money equally
+allocation = amount / len(portfolio)
+
+portfolio["Allocation"] = allocation
+
+
+# Expected profit
+portfolio["Expected_Profit"] = (
+
+    portfolio["Allocation"]
+
+    * portfolio["Expected_Return"]
+
+    / 100
+)
+    #else:
+
+       #st.warning(
+        #"No stocks match the selected risk level."
+        #)
 
 
 # Calculated expected profit

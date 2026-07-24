@@ -534,7 +534,7 @@ def engineer_features(df):
     """
     Apply all feature engineering functions.
     """
-
+    df["Date"] = pd.to_datetime(df["Date"])
     # Always sort first
     df = df.sort_values(["Ticker", "Date"]).reset_index(drop=True)
 
@@ -595,10 +595,22 @@ def engineer_features(df):
     np.nan,
     inplace=True,
     )
+    print(
+    df[df["Ticker"] == "FIRSTHOLDING"].tail(3)
+)
+    # Remove NaNs except the newest rows that only miss Tomorrow_Close
 
-    # Remove NaNs from rolling windows
-    df = df.dropna().reset_index(drop=True)
+    feature_cols = [
+    col for col in df.columns
+    if col not in ["Tomorrow_Close", "Target"]
+ ]
 
-    return df
+    df = df.dropna(
+    subset=feature_cols
+).reset_index(drop=True)
 
+    return df 
+    print(
+    df[df["Ticker"] == "FIRSTHOLDING"].tail(3)
+    )
 
