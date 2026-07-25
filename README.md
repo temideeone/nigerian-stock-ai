@@ -243,7 +243,7 @@ Planned upgrades include:
 AI/ML Engineer | AI Automation Builder
 
 LinkedIn:
-https://www.linkedin.com/in/temidayo-abodunrin-689143199
+linkedin.com/in/temidayo-abodunrin-635460141
 
 GitHub:
 https://github.com/temideeone
